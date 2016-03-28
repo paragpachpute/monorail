@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     profile.cpp \
     showfare.cpp \
     booking.cpp \
-    sqlconnect.cpp
+    sqlconnect.cpp \
+    loginwindow.cpp \
+    registerwindow.cpp \
+    user.cpp
 
 HEADERS  += mainwindow.h \
     history.h \
@@ -27,11 +30,15 @@ HEADERS  += mainwindow.h \
     profile.h \
     showfare.h \
     booking.h \
-    mysql.h
+    mysql.h \
+    loginwindow.h \
+    registerwindow.h
 
 FORMS    += mainwindow.ui \
     homepage.ui \
     history.ui \
     profile.ui \
     showfare.ui \
-    booking.ui
+    booking.ui \
+    loginwindow.ui \
+    registerwindow.ui
