@@ -22,5 +22,6 @@ QString user :: pass = "";
 QString user :: age = "";
 QString user :: gender = "";
 QString user :: add = "";
+QString user :: id = "";
 
 

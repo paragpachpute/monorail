@@ -1,6 +1,7 @@
 #include "profile.h"
 #include "ui_profile.h"
 #include"sqlconnect.cpp"
+#include "user.cpp"
 
 QString id, name, age, gender, add;
 
@@ -13,7 +14,7 @@ profile::profile(QWidget *parent) :
     sqlconnect sql;
     if(sql.createConnection()){
         QSqlQuery query;
-        QString uname = "parag";
+        QString uname = user::username;
         QString sqlQuery = "select * from person where name='" + uname + "'";
         query.exec(sqlQuery);
         while (query.next()) {

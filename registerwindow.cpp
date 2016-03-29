@@ -2,6 +2,7 @@
 #include "ui_registerwindow.h"
 #include "loginwindow.h"
 #include "user.cpp"
+#include "sqlconnect.cpp"
 #include "QDebug"
 #include <QMessageBox>
 
@@ -48,10 +49,36 @@ void RegisterWindow::on_pushButton_clicked()
         qDebug() << user::username;
         qDebug() << user::pass;
 
+        sqlconnect sql;
+        if(sql.createConnection())
+        {
+            qDebug() << "Connected!";
+            QSqlQuery query;
+            query.exec("insert into person values('', '" + username + "', " + age +
+                       ", '" + gender + "', '" + address + "' )");
 
-        LoginWindow *l = new LoginWindow;
-        l->show();
-        this->hide();
+            qDebug() << "select personId from person where name='" + username + "'";
+
+            QSqlQuery newQry;
+            newQry.exec("select personId from person where name='" + username + "'");
+            newQry.next();
+            QString id = newQry.value(0).toString();
+            qDebug() << id;
+
+            u.setid(id);
+
+            QString insQry = "insert into user values(" + id + ", '" + username + "', '" + password + "', '')";
+            qDebug() << insQry;
+            QSqlQuery newQuery;
+            newQuery.exec(insQry);
+
+            LoginWindow *l = new LoginWindow;
+            l->show();
+            this->hide();
+
+        }
+
+
     }
 
 }

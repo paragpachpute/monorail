@@ -42,11 +42,32 @@ void MainWindow::on_pushButton_clicked()
     QString ss = ui->SourceStation->text();
     QString ds = ui->DestinationStation->text();
     //QSqlQuery query;
+    QSqlQuery query;
+    QString sqlQuery = "select stationId from station where name='" + ss + "'";
+    query.exec(sqlQuery);
+    query.next();
+    QString idS = query.value(0).toString();
+    int idSInt = idS.toInt();
+    qDebug() << idSInt;
+
+    sqlQuery = "select stationId from station where name='" + ds + "'";
+    query.exec(sqlQuery);
+    query.next();
+    QString idD = query.value(0).toString();
+    int idDInt = idD.toInt();
+    qDebug() << idDInt;
 
    // query.exec("select * from train where source= '"+ss+"' and destination= '"+ds+"'" );
     TrainListModel=new QSqlQueryModel();
-    QString sql = "select trainNo, station.name, time from haltsat join station on(haltsat.stationId = station.stationId)"
-                  " where name='" + ss + "'" ;
+
+    QString sql;
+    if(idDInt>idSInt)
+        sql = "select distinct haltsat.trainNo, station.name, time from haltsat join station on"
+              "(haltsat.stationId = station.stationId) join train where name='" + ss + "' and direction='up'";
+    else if(idDInt<idSInt)
+        sql = "select distinct haltsat.trainNo, station.name, time from haltsat join station on"
+              "(haltsat.stationId = station.stationId) join train where name='" + ss + "' and direction='down'";
+
     TrainListModel->setQuery(sql);
 
 

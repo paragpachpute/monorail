@@ -1,6 +1,7 @@
 class user
 {
     public:
+    static QString id;
     static QString username;
     static QString pass;
     static QString age;
@@ -9,6 +10,10 @@ class user
 
         void setun(QString un){
             username = un;
+        }
+
+        void setid(QString un){
+            id = un;
         }
 
         void setpass(QString un){

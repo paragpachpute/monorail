@@ -2,6 +2,7 @@
 #include "ui_booking.h"
 #include"mainwindow.h"
 #include"sqlconnect.cpp"
+#include "user.cpp"
 #include<string>
 #include<qDebug>
 #include<QVBoxLayout>
@@ -25,6 +26,7 @@ booking::booking(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::booking)
 {
+    ui->StartDate_LE->
     ui->setupUi(this);
     ui->FClass_RB->setChecked(true);
     ui->Ticket_RB->setChecked(true);
@@ -98,13 +100,16 @@ void booking::on_Submit_Button_clicked()
     if(duration)
         cost *= 3;
 
+    if(cost<0) cost*=-1;
     QString msg("cost is : ");
     msg = msg + QString::number(cost);
     QMessageBox::question(this,"Title", msg);
 
+    qDebug() << user::id;
+
     query.prepare("INSERT INTO ticket VALUES (?, ?, ?, now(), ?, ?, ?, ?)");
     query.addBindValue("");
-    query.addBindValue(3);
+    query.addBindValue((user::id).toInt());
 
     if(ticketClass)
         query.addBindValue("f");
